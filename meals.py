@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import scrolledtext, messagebox
+from tkinter import scrolledtext, messagebox, ttk
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
@@ -46,17 +46,45 @@ def on_send_button_click():
     if prompt:
         get_llm_response(prompt)
     else:
-        messagebox.showwarning("Input Error", "Please enter a prompt.")
+        messagebox.showwarning("Input Error", "can you try again or may be something else.")
+
+def on_clear_button_click():
+    prompt_entry.delete("1.0", tk.END)
+    response_display.config(state=tk.NORMAL)
+    response_display.delete("1.0", tk.END)
+    response_display.config(state=tk.DISABLED)
+
+def show_loading():
+    loading_label.grid(row=5, column=0, pady=5)
+    root.update_idletasks()
+
+def hide_loading():
+    loading_label.grid_forget()
 
 root = tk.Tk()
 root.title("meal planner app, Happy meals:)")
-root.geometry("600x400")
-tk.Label(root, text="what are you craving for:").pack(pady=5)
-prompt_entry = scrolledtext.ScrolledText(root, wrap=tk.WORD, height=5, width=60)
-prompt_entry.pack(pady=5)
+root.geometry("600x415")
+root.grid_columnconfigure(0, weight=1)
+root.grid_rowconfigure(1, weight=1  )
+root.grid_rowconfigure(2, weight=0)
+root.grid_rowconfigure(3, weight=3) 
+root.grid_rowconfigure(4, weight=0)
+
+tk.Label(root, text="what are you craving for:").grid(row=0, column=0, pady=5, padx=5, sticky="ew")
+prompt_entry = scrolledtext.ScrolledText(root, wrap=tk.WORD, height=3)
+prompt_entry.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+
 send_button = tk.Button(root, text="ask the model", command=on_send_button_click)
-send_button.pack(pady=10)
-tk.Label(root, text="Your recipe:").pack(pady=5)
-response_display = scrolledtext.ScrolledText(root, wrap=tk.WORD, height=10, width=60, state=tk.DISABLED)
-response_display.pack(pady=5)
+send_button.grid(row=2, column=0, pady=10, padx=5, sticky="ew")
+
+clear_button = tk.Button(root, text="clear", command=on_clear_button_click)
+clear_button.grid(row=2, column=1, pady=10, padx=5, sticky="ew")
+
+loading_label = ttk.Label(root, text="thinking...", anchor="center")
+loading_label.grid_forget()
+
+tk.Label(root, text="Your recipe:").grid(row=3, column=0, pady=5, padx=5, sticky="ew")
+response_display = scrolledtext.ScrolledText(root, wrap=tk.WORD, height=15, state=tk.DISABLED)
+response_display.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
+
 root.mainloop()
