@@ -10,8 +10,10 @@ grab the latest release from [releases page](https://github.com/uniquepersun/mea
 
 ## Requirements :smiley::
 1. Install the required dependencies with:
-    pip install -r requirements.txt 
-2. Create a `.env` file in the root directory and add your Gemini API credentials like this:
+``` bash
+    pip install -r requirements.txt
+```
+3. Create a `.env` file in the root directory and add your Gemini API credentials like this:
     GEMINI_API_KEY="your_api_key_here"
 anddddd, you're all set! Now just run the py file and have some tasty meals!! :fork_and_knife:
 
